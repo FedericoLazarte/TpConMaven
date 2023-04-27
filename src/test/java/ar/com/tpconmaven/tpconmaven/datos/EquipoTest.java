@@ -5,7 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class EquipoTest {
-
+    /*
+        testEquipo confirma que el constructor y los getters funcionan correctamente
+    */
     @Test
     public void testEquipo() {
         Equipo equipo = new Equipo("Boca", 11, 7, "Riquelme", 10, 4);
@@ -17,6 +19,9 @@ public class EquipoTest {
         assertEquals(4, equipo.getPartidosJugados());
     }
 
+    /*
+        Prueba que los metodos equals y hasCode funcionen correctamente
+    */
     @Test
     public void testEquals() {
         Equipo equipo1 = new Equipo("Boca", 11, 7, "Riquelme", 10, 4);
@@ -28,6 +33,9 @@ public class EquipoTest {
         assertEquals(false, equipo1.equals(equipo3));
     }
 
+    /*
+        prueba que el metodo toString funciona correctamente
+    */
     @Test
     public void testToString() {
         Equipo equipo = new Equipo("Boca", 11, 7, "Riquelme", 10, 4);

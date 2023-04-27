@@ -11,6 +11,7 @@ import java.util.logging.Logger;
  */
 public class Equipo {
     private static final String SQL_MOSTRAR_EQUIPO = "SELECT * FROM equipo WHERE nombre_equipo = ?";
+    private static final String SQL_MOSTRAR_EQUIPOS = "SELECT * FROM equipo";
     private String nombre;
     private int titulares;
     private int suplentes;
@@ -21,6 +22,11 @@ public class Equipo {
     public Equipo() {
     }
 
+    public Equipo(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
     public Equipo(String nombre, int titulares, int suplentes, String directorTecnico, int puntos, int partidosJugados) {
         this.nombre = nombre;
         this.titulares = titulares;
@@ -172,6 +178,43 @@ public class Equipo {
                 Logger.getLogger(Equipo.class.getName()).log(Level.SEVERE, null, ex);
             }
           
+        }
+    }    
+        
+
+    public void mostrarEquipos() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_MOSTRAR_EQUIPOS);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Equipo equipo = new Equipo(rs.getString("nombre_equipo"),
+                        rs.getInt("titulares"),
+                        rs.getInt("suplentes"),
+                        rs.getString("director_tecnico"),
+                        rs.getInt("puntos"),
+                        rs.getInt("partidos_jugados")
+                );
+                System.out.print("Nombre: " + rs.getString("nombre_equipo"));
+                System.out.print(" Titulares: " + rs.getInt("titulares"));
+                System.out.print(" Suplentes: " + rs.getInt("suplentes"));
+                System.out.print(" Director Técnico: " + rs.getString("director_tecnico"));
+                System.out.print(" Puntos: " + rs.getInt("puntos"));
+                System.out.print(" Partidos Jugados: " + rs.getInt("partidos_jugados") + "\n");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Equipo.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                Conexion.close(rs);
+                Conexion.close(stmt);
+                Conexion.close(conn);
+            } catch (SQLException ex) {
+                Logger.getLogger(Equipo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
